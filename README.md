@@ -64,7 +64,7 @@ return [
 
 Selain menyimpan file di folder `./media`, developer bisa juga membuatkan
 metode penyimpanan lain seperti ftp atau aws. Untuk itu, buatkan class
-yang mengimplementasikan interface `libUpload\Iface\Keeper` yang memiliki
+yang mengimplementasikan interface `LibUpload\Iface\Keeper` yang memiliki
 method static sebagai berikut:
 
 ### save(object $file): bool
