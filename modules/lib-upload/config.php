@@ -31,7 +31,11 @@ return [
                 'api' => NULL
             ]
         ],
-        'optional' => []
+        'optional' => [
+            [
+                'lib-media' => NULL
+            ]
+        ]
     ],
     '__gitignore' => [
         'media/*' => TRUE,

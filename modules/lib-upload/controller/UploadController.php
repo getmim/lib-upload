@@ -84,17 +84,9 @@ class UploadController extends \Api\Controller
 
         $keeper = $this->config->libUpload->keeper->handler;
         $handler = $handlers->$keeper->class;
-
-        $file = (object)[
-            'path' => $media->path
-        ];
-
-        $result = $handler::get($file);
-        if(!$result)
-            return $this->resp(500, null, 'Unable to get file');
-
+        
         return $this->resp(0, [
-            'path' => $result->path
+            'path' => $media->path
         ]);
     }
 }

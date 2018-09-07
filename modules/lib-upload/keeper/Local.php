@@ -32,18 +32,7 @@ class Local implements \LibUpload\Iface\Keeper
         self::$error = 'Unable to copy file upload';
         return false;
     }
-
-    static function get(object $file): ?object{
-        $result = (object)[
-            'path' => '',
-            'compress' => 'none'
-        ];
-
-        if(!isset($file->size) && !isset($file->compress))
-            $result->path = '/media/' . $file->path;
-        return $result;
-    }
-
+    
     static function lastError(): ?string{
         return self::$error;
     }

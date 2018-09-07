@@ -65,7 +65,7 @@ return [
 Selain menyimpan file di folder `./media`, developer bisa juga membuatkan
 metode penyimpanan lain seperti ftp atau aws. Untuk itu, buatkan class
 yang mengimplementasikan interface `LibUpload\Iface\Keeper` yang memiliki
-method static sebagai berikut:
+static method sebagai berikut:
 
 ### save(object $file): bool
 
@@ -95,35 +95,6 @@ $file = (object)[
 Fungsi ini diharapkan mengembalikan nilai `true` jika berhasil, dan `false` jika
 gagal.
 
-### get(object $file): ?object
-
-Adalah fungsi untuk mengambil path ke file tersebut dari public ( akan digunakan
-di front-end ). Fungsi ini akan dipanggil dengan parameter sebagai berikut:
-
-```php
-$options = [
-    // identitas file sesuai dengan yang dikembalikan fungsi save
-    'path' => 'aa/bb/cc/my-profile.jpg',
-    // nilai ukuran gambar yang diharapkan
-    'size' => (object)[
-        'width' => 100,
-        'height' => 100
-    ],
-    // compresi yang diharapkan
-    'compress' => ['gzip','brotli','webp','none']
-];
-```
-
-Fungsi ini diharapkan mengembalikan nilai sebagai berikut:
-
-```php
-$result = (object)[
-    // path ke file
-    'path' => 'http://site.mim/media/aa/bb/cc/my-profile.jpg',
-    'compress' => 'webp' // type kompresi
-]
-```
-
 ### lastError(): ?string
 
 Mengambil informasi error terakhir.
@@ -140,8 +111,6 @@ return [
     // ...
     'libUpload' => [
         'keeper' => [
-            // gunakan keeper tersebut sebagai halder utama
-            'handler' => 'my-keeper',
             'handlers' => [
                 'my-keeper' => [
                     'class' => 'LibMyKeeper\\Library\\MyKeeper',
@@ -159,9 +128,6 @@ properti `use` adalah `true` akan di panggil. Jadi jika ada 5 keeper
 terdaftar dan semuanya adalah `use => true`, maka file upload user
 tersebut akan disimpan oleh 5 keeper.
 
-Tetapi, jika file tersebut akan digunakan oleh front-end, hanya `handler`
-yang akan digunakan.
-
 ## FrontEnd
 
 Ketika melakukan upload file dari front-end. Pastikan mengirim dua parameter
@@ -173,7 +139,7 @@ sebagai berikuta:
 Dalam bentuk html, maka bentuk di atas adalah sebagai berikut:
 
 ```html
-<form method="POST" enctype="multipart/form-data" action="/api/upload">
+<form method="POST" enctype="multipart/form-data" action="<?= $this->router->to('apiUpload') ?>">
     <input type="file" name="file">
     <input type="hidden" name="form" value="my-form">
     <button>Upload</button>
@@ -188,12 +154,7 @@ yang dikembalikan dari endpoint ini adalah sebagai berikut:
     "error": 0,
     "message": "OK",
     "data": {
-        "path": "absolute/path/to/file.jpg"
+        "path": "fi/le/lo/ca/lid.jpg"
     }
 }
 ```
-
-## TODO
-
-1. Resize file on media get
-1. Compress file on media get
