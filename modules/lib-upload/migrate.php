@@ -23,7 +23,7 @@ return [
                 'type' => 'VARCHAR',
                 'length' => 300,
                 'attrs' => [
-                    'null' => false 
+                    'null' => false
                 ]
             ],
             'mime' => [
@@ -44,7 +44,8 @@ return [
                 'type' => 'VARCHAR',
                 'length' => 250,
                 'attrs' => [
-                    'null' => false
+                    'null' => false,
+                    'unique' => true
                 ]
             ],
             'identity' => [
