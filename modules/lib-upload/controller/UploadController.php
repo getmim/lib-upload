@@ -31,6 +31,9 @@ class UploadController extends \Api\Controller
         // make sure the file is not yet uploaded
         $media = Media::getOne(['identity'=>$file_md5]);
         if(!$media){
+            $image_width = 0;
+            $image_height= 0;
+
             $file = (object)[
                 'name'   => $result->file['name'],
                 'type'   => $result->file['type'],
@@ -38,6 +41,9 @@ class UploadController extends \Api\Controller
                 'source' => $result->file['tmp_name'],
                 'target' => null
             ];
+
+            if(fnmatch('image/*', $file->type))
+                list($image_width, $image_height) = getimagesize($file->source);
 
             $target = substr($file_md5, 0, 2) . '/'
                     . substr($file_md5, 2, 2) . '/'
@@ -70,14 +76,21 @@ class UploadController extends \Api\Controller
                 return $this->resp(500, null, $error);
 
             // now insert it to db
-            $id = Media::create([
+            $media = [
                 'name' => $target_name,
                 'original' => $file->name,
                 'mime' => $file->type,
                 'user' => $this->user->id,
                 'path' => $target,
                 'identity' => $file_md5
-            ]);
+            ];
+
+            if($image_height)
+                $media['height'] = $image_height;
+            if($image_width)
+                $media['width'] = $image_width;
+
+            $id = Media::create($media);
 
             $media = Media::getOne(['id'=>$id]);
         }

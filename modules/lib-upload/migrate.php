@@ -56,6 +56,18 @@ return [
                     'unique' => true
                 ]
             ],
+            'width' => [
+                'type' => 'INT',
+                'attrs' => [
+                    'unsigned' => true
+                ]
+            ],
+            'height' => [
+                'type' => 'INT',
+                'attrs' => [
+                    'unsigned' => true
+                ]
+            ],
             'created' => [
                 'type' => 'TIMESTAMP',
                 'attrs' => [
