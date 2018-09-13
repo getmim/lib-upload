@@ -21,7 +21,7 @@ return [
             ],
             'original' => [
                 'type' => 'VARCHAR',
-                'length' => 300,
+                'length' => 250,
                 'attrs' => [
                     'null' => false
                 ]
