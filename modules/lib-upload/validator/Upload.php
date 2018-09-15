@@ -132,11 +132,40 @@ class Upload
         if(!$media)
             return ['17.0'];
 
-        if(!$options)
+        if($options === true)
             return null;
 
         if(self::validateMedia($media, $options))
             return ['17.1'];
+
+        return null;
+    }
+
+    static function uploadList($value, $options, $object, $field, $rules): ?array{
+        if(is_null($value))
+            return null;
+
+        $value = (array)$value;
+        if(!$value)
+            return null;
+
+        $media = Media::get(['path'=>$value]);
+        if(!$media)
+            return ['18.0'];
+
+        $media_paths = array_column($media, 'path');
+        foreach($value as $val){
+            if(!in_array($val, $media_paths))
+                return ['18.0'];
+        }
+
+        if($options === true)
+            return null;
+
+        foreach($media as $med){
+            if(self::validateMedia($med, $options))
+                return ['18.1'];
+        }
 
         return null;
     }

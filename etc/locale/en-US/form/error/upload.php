@@ -11,5 +11,7 @@ return [
     'image_height_too_small' => 'Image height too small',
     'image_height_too_big' => 'Image height too big',
     'target_file_not_found' => 'Target file not found',
-    'target_file_not_accepted' => 'Target file not acceptable'
+    'target_file_not_acceptable' => 'Target file not acceptable',
+    'one_or_more_target_file_not_found' => 'One or more files not found',
+    'one_or_more_target_file_not_acceptable' => 'One or more files not acceptable'
 ];

@@ -93,7 +93,8 @@ return [
         'validators' => [
             'upload'      => 'LibUpload\\Validator\\Upload::upload',
             'upload-file' => 'LibUpload\\Validator\\Upload::file',
-            'upload-form' => 'LibUpload\\Validator\\Upload::form'
+            'upload-form' => 'LibUpload\\Validator\\Upload::form',
+            'upload-list' => 'LibUpload\\Validator\\Upload::uploadList'
         ],
         'errors' => [
             '15.0' => 'form.error.upload.invalid_form_name',
@@ -106,7 +107,9 @@ return [
             '16.4.1' => 'form.error.upload.image_height_too_small',
             '16.4.2' => 'form.error.upload.image_height_too_big',
             '17.0' => 'form.error.upload.target_file_not_found',
-            '17.1' => 'form.error.upload.target_file_not_accepted'
+            '17.1' => 'form.error.upload.target_file_not_acceptable',
+            '18.0' => 'form.error.upload.one_or_more_target_file_not_found',
+            '18.1' => 'form.error.upload.one_or_more_target_file_not_acceptable',
         ]
     ],
     'routes' => [
