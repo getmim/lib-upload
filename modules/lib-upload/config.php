@@ -73,17 +73,17 @@ return [
                     'label' => 'File',
                     'type' => 'file',
                     'rules' => [
-                        'required' => true,
+                        'required' => TRUE,
                         'array' => 'assoc',
-                        'upload-file' => true
+                        'upload-file' => TRUE
                     ]
                 ],
                 'form' => [
                     'label' => 'File Form',
                     'type' => 'text',
                     'rules' => [
-                        'required' => true,
-                        'upload-form' => true
+                        'required' => TRUE,
+                        'upload-form' => TRUE
                     ]
                 ]
             ]
@@ -91,19 +91,22 @@ return [
     ],
     'libValidator' => [
         'validators' => [
+            'upload'      => 'LibUpload\\Validator\\Upload::upload',
             'upload-file' => 'LibUpload\\Validator\\Upload::file',
             'upload-form' => 'LibUpload\\Validator\\Upload::form'
         ],
         'errors' => [
-            '15.0'      => 'form.error.upload.invalid_form_name',
-            '16.0.1'    => 'form.error.upload.file_size_too_small',
-            '16.0.2'    => 'form.error.upload.file_size_too_big',
-            '16.1'      => 'form.error.upload.mime_type_not_acceptable',
-            '16.2'      => 'form.error.upload.file_extension_not_acceptable',
-            '16.3.1'    => 'form.error.upload.image_width_too_small',
-            '16.3.2'    => 'form.error.upload.image_width_too_big',
-            '16.4.1'    => 'form.error.upload.image_height_too_small',
-            '16.4.2'    => 'form.error.upload.image_height_too_big'
+            '15.0' => 'form.error.upload.invalid_form_name',
+            '16.0.1' => 'form.error.upload.file_size_too_small',
+            '16.0.2' => 'form.error.upload.file_size_too_big',
+            '16.1' => 'form.error.upload.mime_type_not_acceptable',
+            '16.2' => 'form.error.upload.file_extension_not_acceptable',
+            '16.3.1' => 'form.error.upload.image_width_too_small',
+            '16.3.2' => 'form.error.upload.image_width_too_big',
+            '16.4.1' => 'form.error.upload.image_height_too_small',
+            '16.4.2' => 'form.error.upload.image_height_too_big',
+            '17.0' => 'form.error.upload.target_file_not_found',
+            '17.1' => 'form.error.upload.target_file_not_accepted'
         ]
     ],
     'routes' => [
@@ -117,7 +120,6 @@ return [
             ]
         ]
     ],
-
     'libUpload' => [
         'base' => [
             'local' => 'media'
@@ -128,7 +130,7 @@ return [
             'handlers' => [
                 'local' => [
                     'class' => 'LibUpload\\Keeper\\Local',
-                    'use' => true
+                    'use' => TRUE
                 ]
             ]
         ]

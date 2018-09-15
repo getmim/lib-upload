@@ -7,12 +7,11 @@
 
 namespace LibUpload\Validator;
 
+use LibUpload\Model\Media;
+
 class Upload
 {
-    static function file($value, $opts, $object, $field, $rules): ?array{
-        $form = $object->form ?? null;
-        if(!$form)
-            return null;
+    static function validateMedia(object $media, string $form): ?array{
         $rules = \Mim::$app->config->libUpload->forms->$form ?? null;
         if(!$rules)
             return null;
@@ -20,11 +19,13 @@ class Upload
         // size
         if(isset($rules->size)){
             $size = $rules->size;
+
             // size min
-            if(isset($size->min) && $size->min > $value['size'])
+            if(isset($size->min) && $size->min > $media->size)
                 return ['16.0.1'];
+            
             // size max
-            if(isset($size->max) && $size->max < $value['size'])
+            if(isset($size->max) && $size->max < $media->size)
                 return ['16.0.2'];
         }
 
@@ -32,7 +33,7 @@ class Upload
         if(isset($rules->mime)){
             $matched = false;
             foreach($rules->mime as $mime){
-                if(fnmatch($mime, $value['type'])){
+                if(fnmatch($mime, $media->mime)){
                     $matched = true;
                     break;
                 }
@@ -45,7 +46,7 @@ class Upload
         // exts
         if(isset($rules->exts)){
             $matched = false;
-            $exts = explode('.', $value['name']);
+            $exts = explode('.', $media->name);
             $ext  = end($exts);
             $ext  = strtolower($ext);
 
@@ -64,10 +65,11 @@ class Upload
         }
 
         // image
-        if(isset($rules->image) && fnmatch('image/*', $value['type'])){
+        if(isset($rules->image) && fnmatch('image/*', $media->mime)){
             $image = $rules->image;
 
-            list($file_width, $file_height) = getimagesize($value['tmp_name']);
+            $file_width  = $media->width;
+            $file_height = $media->height;
 
             // width
             if(isset($image->width)){
@@ -91,9 +93,51 @@ class Upload
         return null;
     }
 
+    static function file($value, $opts, $object, $field, $rules): ?array{
+        $form = $object->form ?? null;
+        if(!$form)
+            return null;
+
+        if(!is_array($value))
+            return null;
+
+        $media = (object)[
+            'size'   => $value['size'],
+            'mime'   => $value['type'],
+            'name'   => $value['name'],
+            'width'  => null,
+            'height' => null
+        ];
+
+        if(fnmatch('image/*', $value['type'])){
+            list($file_width, $file_height) = getimagesize($value['tmp_name']);
+            $media->width = $file_width;
+            $media->height = $file_height;
+        }
+
+        return self::validateMedia($media, $form);
+    }
+
     static function form($value, $opts, $object, $field, $rules): ?array{
         if(isset(\Mim::$app->config->libUpload->forms->$value))
             return null;
         return ['15.0'];
+    }
+
+    static function upload($value, $options, $object, $field, $rules): ?array {
+        if(is_null($value))
+            return null;
+
+        $media = Media::getOne(['path'=>$value]);
+        if(!$media)
+            return ['17.0'];
+
+        if(!$options)
+            return null;
+
+        if(self::validateMedia($media, $options))
+            return ['17.1'];
+
+        return null;
     }
 }

@@ -158,3 +158,19 @@ yang dikembalikan dari endpoint ini adalah sebagai berikut:
     }
 }
 ```
+
+## Validator
+
+Jika module `lib-validator` terpasang, maka module ini mendaftarkan satu tipe validasi dengan
+nama `upload`. Tipe validasi ini memastikan nilai file yang dikirim pernah diupload.
+
+```php
+return [
+    'upload' => true,
+    'upload' => 'avatar-file'
+];
+```
+
+Jika nilai yang diberikan adalah `true`, maka validor hanya mengecek jika file pernah diupload
+dan ada di server. Atau bisa juga memberikan nilai string nama form upload untuk memastikan file
+yang dikirim cocok dengan file yang terupload.

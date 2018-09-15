@@ -56,6 +56,20 @@ return [
                     'unique' => true
                 ]
             ],
+            'size' => [
+                'type' => 'INTEGER',
+                'attrs' => [
+                    'null' => false,
+                    'unsigned' => true 
+                ]
+            ],
+            'form' => [
+                'type' => 'VARCHAR',
+                'length' => 50,
+                'attrs' => [
+                    'null' => false
+                ]
+            ],
             'width' => [
                 'type' => 'INT',
                 'attrs' => [

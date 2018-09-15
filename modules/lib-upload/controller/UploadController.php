@@ -77,12 +77,14 @@ class UploadController extends \Api\Controller
 
             // now insert it to db
             $media = [
-                'name' => $target_name,
-                'original' => $file->name,
-                'mime' => $file->type,
-                'user' => $this->user->id,
-                'path' => $target,
-                'identity' => $file_md5
+                'name'      => $target_name,
+                'original'  => $file->name,
+                'mime'      => $file->type,
+                'user'      => $this->user->id,
+                'path'      => $target,
+                'form'      => $result->form,
+                'size'      => $file->size,
+                'identity'  => $file_md5
             ];
 
             if($image_height)

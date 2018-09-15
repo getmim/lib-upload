@@ -9,5 +9,7 @@ return [
     'image_width_too_small' => 'Ukuran lebar gambar terlalu kecil',
     'image_width_too_big' => 'Ukuran lebar gambar terlalu besar',
     'image_height_too_small' => 'Ukuran tinggi gambar terlalu kecil',
-    'image_height_too_big' => 'Ukuran tinggi gambar terlalu besar'
+    'image_height_too_big' => 'Ukuran tinggi gambar terlalu besar',
+    'target_file_not_found' => 'Target berkas tidak ditemukan',
+    'target_file_not_accepted' => 'Target berkas tidak bisa digunakan'
 ];
