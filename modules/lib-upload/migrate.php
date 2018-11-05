@@ -21,7 +21,7 @@ return [
             ],
             'original' => [
                 'type' => 'VARCHAR',
-                'length' => 250,
+                'length' => 255,
                 'attrs' => [
                     'null' => false
                 ]
@@ -42,7 +42,7 @@ return [
             ],
             'path' => [
                 'type' => 'VARCHAR',
-                'length' => 250,
+                'length' => 191,
                 'attrs' => [
                     'null' => false,
                     'unique' => true
