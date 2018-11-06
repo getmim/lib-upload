@@ -93,7 +93,9 @@ return [
             'by_mime_original' => [
                 'fields' => [
                     'mime' => [],
-                    'original' => []
+                    'original' => [
+                        'length' => 191
+                    ]
                 ]
             ]
         ]
