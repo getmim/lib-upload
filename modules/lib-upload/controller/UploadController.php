@@ -12,6 +12,61 @@ use LibUpload\Model\Media;
 
 class UploadController extends \Api\Controller
 {
+    public function filterAction(){
+        if(!$this->user->isLogin())
+            return $this->resp(401);
+
+        $cond = [];
+
+        if(!is_null($hash = $this->req->getQuery('hash')))
+            $cond['identity'] = $hash;
+
+        if(!is_null($mime = $this->req->getQuery('type'))){
+            if(false === strstr($mime, '*')){
+                $cond['mime'] = $mime;
+            }else{
+                $mimes = explode('/', $mime);
+                $left  = false;
+                $right = false;
+
+                if(count($mimes) === 2){
+                    if($mimes[0] === '*')
+                        $left = true;
+                    if($mimes[1] === '*')
+                        $right = true;
+
+                    if($left && $right)
+                        $position = 'both';
+                    elseif($left)
+                        $position = 'left';
+                    elseif($right)
+                        $position = 'right';
+
+                    $mime = str_replace('*', '', $mime);
+                    $cond['mime'] = ['__like', $mime, $position];
+                }
+            }
+        }
+
+        if(!is_null($name = $this->req->getQuery('name')))
+            $cond['original'] = ['__like', $name];
+
+        $result = [];
+
+        $media = Media::get($cond, 20, 1);
+        if($media){
+            foreach($media as $medium){
+                $result[] = [
+                    'path' => $medium->path,
+                    'name' => $medium->original,
+                    'type' => $medium->mime,
+                    'size' => (int)$medium->size
+                ];
+            }
+        }
+
+        $this->resp(0, $result);
+    }
 
     public function initAction() {
         if(!$this->user->isLogin())
@@ -99,9 +154,12 @@ class UploadController extends \Api\Controller
 
         $keeper = $this->config->libUpload->keeper->handler;
         $handler = $handlers->$keeper->class;
-        
+
         return $this->resp(0, [
-            'path' => $media->path
+            'path' => $media->path,
+            'name' => $media->original,
+            'type' => $media->mime,
+            'size' => (int)$media->size
         ]);
     }
 }

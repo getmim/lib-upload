@@ -154,10 +154,22 @@ yang dikembalikan dari endpoint ini adalah sebagai berikut:
     "error": 0,
     "message": "OK",
     "data": {
-        "path": "fi/le/lo/ca/lid.jpg"
+        "path": "fi/le/lo/ca/lid.jpg",
+        "name": "lid.jpg",
+        "mime": "image/jpeg",
+        "size": 94052
     }
 }
 ```
+
+### Filter
+
+Route `apiUploadFilter` atau url `/upload/filter` bisa digunakan untuk memfilter file yang pernah di upload
+oleh semua user. Endpoint ini menerima query string:
+
+1. `name` Filter berdasarkan nama file ketika di upload. Menerima nama parsial.
+1. `type` Filter berdasarkan mime type file. Karaketer `*` dianggap sebagai cocok dengan semua (ex: `image/*` ).
+1. `hash` Filter berdasarkan hash file ( md5 ).
 
 ## Validator
 
