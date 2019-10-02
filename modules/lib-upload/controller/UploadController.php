@@ -56,7 +56,9 @@ class UploadController extends \Api\Controller
         $media = Media::get($cond, 20, 1);
         if($media){
             foreach($media as $medium){
+                $file_urls = json_decode($medium->urls);
                 $result[] = [
+                    'url'  => $file_urls[0] ?? NULL,
                     'path' => $medium->path,
                     'name' => $medium->original,
                     'type' => $medium->mime,
@@ -85,6 +87,7 @@ class UploadController extends \Api\Controller
 
         // make sure the file is not yet uploaded
         $media = Media::getOne(['identity'=>$file_md5]);
+        $file_urls = [];
         if(!$media){
             $image_width = 0;
             $image_height= 0;
@@ -121,10 +124,12 @@ class UploadController extends \Api\Controller
                 if(!$opt->use)
                     continue;
                 $class = $opt->class;
-                if(!$class::save($file)){
+                if(!($file_url = $class::save($file))){
                     $error = $class::lastError();
                     break;
                 }
+
+                $file_urls[] = $file_url;
             }
 
             if($error)
@@ -139,7 +144,8 @@ class UploadController extends \Api\Controller
                 'path'      => $target,
                 'form'      => $result->form,
                 'size'      => $file->size,
-                'identity'  => $file_md5
+                'identity'  => $file_md5,
+                'urls'      => json_encode($file_urls)
             ];
 
             if($image_height)
@@ -152,10 +158,9 @@ class UploadController extends \Api\Controller
             $media = Media::getOne(['id'=>$id]);
         }
 
-        $keeper = $this->config->libUpload->keeper->handler;
-        $handler = $handlers->$keeper->class;
-
+        $file_urls = json_decode($media->urls);
         return $this->resp(0, [
+            'url'  => $file_urls[0] ?? NULL,
             'path' => $media->path,
             'name' => $media->original,
             'type' => $media->mime,

@@ -14,23 +14,28 @@ class Local implements \LibUpload\Iface\Keeper
 
     private static $error;
 
-    static function save(object $file): bool{
-        $base = \Mim::$app->config->libUpload->base->local ?? 'media';
+    private function setError(string $error){
+        self::$error = $error;
+        return null;
+    }
+
+    static function save(object $file): ?string{
+        $config = &\Mim::$app->config->libUpload->base;
+
+        $base = $config->local ?? 'media';
         if(substr($base,0,1) != '/')
             $base = realpath(BASEPATH . '/' . $base);
 
-        if(!is_writable($base)){
-            self::$error = 'Target dir is not writable';
-            return false;
-        }
+        if(!is_writable($base))
+            return self::setError('Target dir is not writable');
 
         $target = $base . '/' . $file->target;
 
         $result = Fs::copy($file->source, $target);
-        if($result)
-            return true;
-        self::$error = 'Unable to copy file upload';
-        return false;
+        if(!$result)
+            return self::setError('Unable to copy file upload');
+
+        return $config->host . $file->target;
     }
     
     static function lastError(): ?string{

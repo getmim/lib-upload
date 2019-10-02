@@ -9,6 +9,6 @@ namespace LibUpload\Iface;
 
 interface Keeper
 {
-    static function save(object $file): bool;
+    static function save(object $file): ?string;
     static function lastError(): ?string;
 }

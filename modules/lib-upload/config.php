@@ -2,7 +2,7 @@
 
 return [
     '__name' => 'lib-upload',
-    '__version' => '0.0.3',
+    '__version' => '0.0.4',
     '__git' => 'git@github.com:getmim/lib-upload.git',
     '__license' => 'MIT',
     '__author' => [
@@ -132,9 +132,14 @@ return [
     ],
     'libUpload' => [
         'base' => [
-            'local' => 'media'
+            'local' => 'media',
+            'host' => '/media/'
         ],
-        'forms' => [],
+        'forms' => [
+            'std-image' => [
+                'mime' => ['image/*']
+            ]
+        ],
         'keeper' => [
             'handler' => 'local',
             'handlers' => [

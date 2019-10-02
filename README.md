@@ -25,7 +25,8 @@ return [
     // ...
     'libUpload' => [
         'base' => [
-            'local' => 'media' // folder dimana file upload disimpan
+            'local' => 'media', // folder dimana file upload disimpan
+            'host'  => 'http://site.mim/media'
         ],
         'forms' => [
             'my-upload' => [
@@ -151,14 +152,15 @@ yang dikembalikan dari endpoint ini adalah sebagai berikut:
 
 ```json
 {
-    "error": 0,
-    "message": "OK",
-    "data": {
-        "path": "fi/le/lo/ca/lid.jpg",
-        "name": "lid.jpg",
-        "mime": "image/jpeg",
-        "size": 94052
-    }
+   "error":0,
+   "message":"OK",
+   "data":{
+      "url":"/media/d4/7d/e0/3e/d47de03e7b5b7040d11fc8bfa5203271.jpg",
+      "path":"d4/7d/e0/3e/d47de03e7b5b7040d11fc8bfa5203271.jpg",
+      "name":"Nature-Beach-Scenery-Wallpaper-HD.jpg",
+      "type":"image/jpeg",
+      "size":446517
+   }
 }
 ```
 
