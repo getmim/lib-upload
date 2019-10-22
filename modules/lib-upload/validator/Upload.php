@@ -125,7 +125,7 @@ class Upload
     }
 
     static function upload($value, $options, $object, $field, $rules): ?array {
-        if(is_null($value))
+        if(is_null($value) || !$value)
             return null;
 
         $media = Media::getOne(['path'=>$value]);
@@ -142,7 +142,7 @@ class Upload
     }
 
     static function uploadList($value, $options, $object, $field, $rules): ?array{
-        if(is_null($value))
+        if(is_null($value) || !$value)
             return null;
 
         $value = (array)$value;
