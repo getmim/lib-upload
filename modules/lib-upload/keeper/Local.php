@@ -19,6 +19,15 @@ class Local implements \LibUpload\Iface\Keeper
         return null;
     }
 
+    static function getId(string $file): ?string{
+        $host = \Mim::$app->config->libUpload->base->host;
+        $host_len = strlen($host);
+
+        if(substr($file, 0, $host_len) != $host)
+            return null;
+        return substr($file, $host_len);
+    }
+
     static function save(object $file): ?string{
         $config = &\Mim::$app->config->libUpload->base;
 

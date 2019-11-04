@@ -11,7 +11,20 @@ use LibUpload\Model\Media;
 
 class Upload
 {
-    static function validateMedia(object $media, string $form): ?array{
+    private static function getFileId(string $file): ?string{
+        $handlers = \Mim::$app->config->libUpload->keeper->handlers;
+        
+        foreach($handlers as $handler){
+            $class = $handler->class;
+            $value = $class::getId($file);
+            if($value)
+                return $value;
+        }
+
+        return null;
+    }
+
+    private static function validateMedia(object $media, string $form): ?array{
         $rules = \Mim::$app->config->libUpload->forms->$form ?? null;
         if(!$rules)
             return null;
@@ -128,7 +141,11 @@ class Upload
         if(is_null($value) || !$value)
             return null;
 
-        $media = Media::getOne(['path'=>$value]);
+        $file_id = self::getFileId($value);
+        if(!$file_id)
+            return ['17.0'];
+
+        $media = Media::getOne(['path'=>$file_id]);
         if(!$media)
             return ['17.0'];
 
@@ -148,6 +165,12 @@ class Upload
         $value = (array)$value;
         if(!$value)
             return null;
+
+        foreach($value as &$val){
+            $val = self::getFileId($val);
+            if(!$val)
+                return ['18.0'];
+        }
 
         $media = Media::get(['path'=>$value]);
         if(!$media)
