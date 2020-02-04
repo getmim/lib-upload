@@ -2,7 +2,7 @@
 
 return [
     '__name' => 'lib-upload',
-    '__version' => '0.0.6',
+    '__version' => '0.1.0',
     '__git' => 'git@github.com:getmim/lib-upload.git',
     '__license' => 'MIT',
     '__author' => [
@@ -138,6 +138,9 @@ return [
         'forms' => [
             'std-image' => [
                 'mime' => ['image/*']
+            ],
+            'std-audio' => [
+                'mime' => ['audio/*']
             ]
         ],
         'keeper' => [
