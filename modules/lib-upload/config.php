@@ -2,7 +2,7 @@
 
 return [
     '__name' => 'lib-upload',
-    '__version' => '0.1.0',
+    '__version' => '0.2.0',
     '__git' => 'git@github.com:getmim/lib-upload.git',
     '__license' => 'MIT',
     '__author' => [
@@ -34,6 +34,9 @@ return [
         'optional' => [
             [
                 'lib-media' => NULL
+            ],
+            [
+                'lib-formatter' => NULL
             ]
         ]
     ],
@@ -62,12 +65,32 @@ return [
             'LibUpload\\Validator' => [
                 'type' => 'file',
                 'base' => 'modules/lib-upload/validator'
+            ],
+            'LibUpload\\Library' => [
+                'type' => 'file',
+                'base' => 'modules/lib-upload/library'
             ]
         ],
         'files' => []
     ],
     'libForm' => [
         'forms' => [
+            'std-cover' => [
+                'cover-url' => [
+                    'label' => 'Cover',
+                    'type' => 'image',
+                    'form' => 'std-image',
+                    'rules' => [
+                        'required' => TRUE,
+                        'upload' => TRUE
+                    ]
+                ],
+                'cover-label' => [
+                    'label' => 'Cover Label',
+                    'type' => 'text',
+                    'rules' => []
+                ]
+            ],
             'lib-upload' => [
                 'file' => [
                     'label' => 'File',
@@ -91,7 +114,7 @@ return [
     ],
     'libValidator' => [
         'validators' => [
-            'upload'      => 'LibUpload\\Validator\\Upload::upload',
+            'upload' => 'LibUpload\\Validator\\Upload::upload',
             'upload-file' => 'LibUpload\\Validator\\Upload::file',
             'upload-form' => 'LibUpload\\Validator\\Upload::form',
             'upload-list' => 'LibUpload\\Validator\\Upload::uploadList'
@@ -109,7 +132,7 @@ return [
             '17.0' => 'form.error.upload.target_file_not_found',
             '17.1' => 'form.error.upload.target_file_not_acceptable',
             '18.0' => 'form.error.upload.one_or_more_target_file_not_found',
-            '18.1' => 'form.error.upload.one_or_more_target_file_not_acceptable',
+            '18.1' => 'form.error.upload.one_or_more_target_file_not_acceptable'
         ]
     ],
     'routes' => [
@@ -150,6 +173,24 @@ return [
                     'class' => 'LibUpload\\Keeper\\Local',
                     'use' => TRUE
                 ]
+            ]
+        ]
+    ],
+    'libFormatter' => [
+        'formats' => [
+            'std-cover' => [
+                'url' => [
+                    'type' => 'media'
+                ],
+                'label' => [
+                    'type' => 'text'
+                ]
+            ]
+        ],
+        'handlers' => [
+            'std-cover' => [
+                'handler' => 'LibUpload\\Library\\Format::stdCover',
+                'collective' => false
             ]
         ]
     ]
