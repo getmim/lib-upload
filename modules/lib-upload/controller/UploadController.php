@@ -48,7 +48,7 @@ class UploadController extends \Api\Controller
             }
         }
 
-        if(!is_null($name = $this->req->getQuery('name')))
+        if(!is_null($name = $this->req->getQuery('query') ?? $this->req->getQuery('name')))
             $cond['original'] = ['__like', $name];
 
         $result = [];
