@@ -26,7 +26,7 @@ return [
     'libUpload' => [
         'base' => [
             'local' => 'media', // folder dimana file upload disimpan
-            'host'  => 'http://site.mim/media'
+            'host'  => 'http://site.mim/media/'
         ],
         'forms' => [
             'my-upload' => [
