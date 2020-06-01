@@ -24,6 +24,11 @@ module atau aplikasi untuk validasi file upload:
 return [
     // ...
     'libUpload' => [
+        'filter' => [
+            // find file hanya dari file yang diupload oleh 
+            // user bersangkutan
+            'own' => false
+        ],
         'base' => [
             'local' => 'media', // folder dimana file upload disimpan
             'host'  => 'http://site.mim/media/'

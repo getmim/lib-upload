@@ -18,6 +18,9 @@ class UploadController extends \Api\Controller
 
         $cond = [];
 
+        if($this->config->libUpload->filter->own)
+            $cond['user'] = $this->user->id;
+
         if(!is_null($hash = $this->req->getQuery('hash')))
             $cond['identity'] = $hash;
 
