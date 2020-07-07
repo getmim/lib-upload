@@ -14,7 +14,7 @@ class Local implements \LibUpload\Iface\Keeper
 
     private static $error;
 
-    private function setError(string $error){
+    private static function setError(string $error){
         self::$error = $error;
         return null;
     }

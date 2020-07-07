@@ -18,7 +18,7 @@ mim app install lib-upload
 ## Konfigurasi
 
 Silahkan tambahkan konfigurasi seperti di bawah pada konfigurasi
-module atau aplikasi untuk validasi file upload:
+module atau aplikasi:
 
 ```php
 return [
@@ -65,6 +65,8 @@ return [
     // ...
 ];
 ```
+Sebagai catatan, module ini sudah mendaftarkan form upload dengan nama `std-image` untuk
+menerima semua image, dan `std-audio` untuk menerima semua file audio.
 
 ## Custom Keeper
 
@@ -72,6 +74,16 @@ Selain menyimpan file di folder `./media`, developer bisa juga membuatkan
 metode penyimpanan lain seperti ftp atau aws. Untuk itu, buatkan class
 yang mengimplementasikan interface `LibUpload\Iface\Keeper` yang memiliki
 static method sebagai berikut:
+
+### getId(string $file): ?string
+
+Fungsi yang akan dipanggil oleh system untuk mendapatkan id suatu file berdasarkan
+full-url dari file tersebut. Fungsi ini diharapkan mengembalikan null jika keeper
+tidak mengenali file, atau string file id jika diketahui.
+
+### lastError(): ?string
+
+Mengambil informasi error terakhir.
 
 ### save(object $file): bool
 
@@ -100,10 +112,6 @@ $file = (object)[
 
 Fungsi ini diharapkan mengembalikan nilai `true` jika berhasil, dan `false` jika
 gagal.
-
-### lastError(): ?string
-
-Mengambil informasi error terakhir.
 
 ## Implementasi Keeper
 
@@ -208,4 +216,48 @@ return [
     'upload-list' => true,
     'upload-list' => 'avatar-file'
 ];
+```
+
+## Formatter
+
+Module ini menambah satu formatter dengan nama `std-cover` untuk memformat data string object
+menjadi object cover dengan label. Nilai property dengan format ini harus berbentuk seperti di
+bawah:
+
+```json
+{"url":"...","label":"..."}
+```
+
+Nilai seperti di atas akan diubah menjadi object media untuk properti URL, dan object text untuk
+properti label.
+
+## Form
+
+Module ini juga menambahkan satu form yang bisa di-extends untuk menghasilkan 2 form field baru, yaitu
+`cover-url` dan `cover-label`. Kedua properti ini kemudian bisa digunakan untuk mengambil object cover 
+dengan label.
+
+## Form Handler
+
+Pada form `std-cover`, cover memiliki URL dan label yang disimpan dalam object json. Untuk mempermudah
+proses conversi dari properti `cover` menjadi form fields, module ini menambahkan satu library dengan
+nama `LibUpload\Library\Form`.
+
+```php
+use LibUpload\Library\Form as UForm;
+
+$object = (object)[
+    'id' => 1,
+    'cover' => '{"url":"/path/to/img.jpg","label":"..."}'
+];
+
+// parse property `cover` menjadi `cover-url` dan `cover-label`
+UForm::parse($object, 'cover');
+
+// $form = new Form('form-name');
+// if(!($valid = $form->validate($object)))
+//      return $this->resp('event/edit', $params);
+
+// menggabungkan properti `cover-url` dan `cover-label` ke dalam properti `cover`
+UForm::combine($valid, 'cover');
 ```
