@@ -26,7 +26,7 @@ class UploadController extends \Api\Controller
 
         if(!is_null($mime = $this->req->getQuery('type'))){
             if(false === strstr($mime, '*')){
-                $cond['mime'] = $mime;
+                $cond['mime'] = explode(',', $mime);
             }else{
                 $mimes = explode('/', $mime);
                 $left  = false;
@@ -82,11 +82,20 @@ class UploadController extends \Api\Controller
         if(!$form->validate())
             return $this->resp(422, $form->getErrors());
 
-        $result = $form->getResult();
+        $result  = $form->getResult();
+        $up_form = (array)($this->config->libUpload->forms->{$result->form}->keeper ?? []);
 
         $file_md5 = md5_file($result->file['tmp_name']);
 
         $handlers = $this->config->libUpload->keeper->handlers;
+        if(!is_null($up_form)){
+            $used_handlers = [];
+            foreach($handlers as $keeper => $opt){
+                if(in_array($keeper, $up_form))
+                    $used_handlers[$keeper] = $opt;
+            }
+            $handlers = $used_handlers;
+        }
 
         // make sure the file is not yet uploaded
         $media = Media::getOne(['identity'=>$file_md5]);
@@ -122,7 +131,7 @@ class UploadController extends \Api\Controller
             $file->target = $target;
 
             $error = false;
-
+            
             foreach($handlers as $keeper => $opt){
                 if(!$opt->use)
                     continue;

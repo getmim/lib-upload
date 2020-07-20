@@ -58,7 +58,9 @@ return [
                         'min' => 10,
                         'max' => 1024
                     ]
-                ]
+                ],
+                // use only this keepr to store the file
+                'keeper' => ['/name/']
             ]
         ]
     ]
@@ -145,7 +147,7 @@ tersebut akan disimpan oleh 5 keeper.
 ## FrontEnd
 
 Ketika melakukan upload file dari front-end. Pastikan mengirim dua parameter
-sebagai berikuta:
+sebagai berikut:
 
 1. `file` File object
 3. `form` Form name
