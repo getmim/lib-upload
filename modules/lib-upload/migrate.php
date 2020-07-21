@@ -31,7 +31,7 @@ return [
             ],
             'mime' => [
                 'type' => 'VARCHAR',
-                'length' => 50,
+                'length' => 100,
                 'attrs' => [
                     'null' => false 
                 ],

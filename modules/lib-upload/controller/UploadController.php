@@ -165,7 +165,8 @@ class UploadController extends \Api\Controller
             if($image_width)
                 $media['width'] = $image_width;
 
-            $id = Media::create($media);
+            if(!$id = Media::create($media))
+                return $this->resp(500, Media::lastError());
 
             $media = Media::getOne(['id'=>$id]);
         }
