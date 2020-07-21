@@ -88,7 +88,7 @@ class UploadController extends \Api\Controller
         $file_md5 = md5_file($result->file['tmp_name']);
 
         $handlers = $this->config->libUpload->keeper->handlers;
-        if(!is_null($up_form)){
+        if($up_form){
             $used_handlers = [];
             foreach($handlers as $keeper => $opt){
                 if(in_array($keeper, $up_form))
@@ -96,7 +96,7 @@ class UploadController extends \Api\Controller
             }
             $handlers = $used_handlers;
         }
-
+        
         // make sure the file is not yet uploaded
         $media = Media::getOne(['identity'=>$file_md5]);
         $file_urls = [];
