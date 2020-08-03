@@ -2,6 +2,7 @@
 
 return [
     'invalid_form_name' => 'Form upload tidak valid',
+    'invalid_object_request_format' => 'Data yang dikirim tidak valid',
     'file_size_too_small' => 'Ukuran berkas terlalu kecil',
     'file_size_too_big' => 'Ukuran berkas terlalu besar',
     'mime_type_not_acceptable' => 'Tipe mime berkas tidak diperbolehkan',

@@ -2,7 +2,7 @@
 
 return [
     '__name' => 'lib-upload',
-    '__version' => '0.3.3',
+    '__version' => '0.3.4',
     '__git' => 'git@github.com:getmim/lib-upload.git',
     '__license' => 'MIT',
     '__author' => [
@@ -132,7 +132,8 @@ return [
             '17.0' => 'form.error.upload.target_file_not_found',
             '17.1' => 'form.error.upload.target_file_not_acceptable',
             '18.0' => 'form.error.upload.one_or_more_target_file_not_found',
-            '18.1' => 'form.error.upload.one_or_more_target_file_not_acceptable'
+            '18.1' => 'form.error.upload.one_or_more_target_file_not_acceptable',
+            '18.2' => 'form.error.upload.invalid_object_request_format'
         ]
     ],
     'routes' => [

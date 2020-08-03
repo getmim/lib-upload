@@ -162,23 +162,45 @@ class Upload
         if(is_null($value) || !$value)
             return null;
 
+        if(is_string($value))
+            $value = json_decode($value);
+
         $value = (array)$value;
         if(!$value)
             return null;
 
+        $file_paths = [];
+
         foreach($value as &$val){
-            $val = self::getFileId($val);
-            if(!$val)
-                return ['18.0'];
+            if(is_string($val)){
+                $val = self::getFileId($val);
+                if(!$val)
+                    return ['18.0'];
+                $file_paths[] = $val;
+            }elseif(is_object($val)){
+                if(!isset($val->url))
+                    return ['18.2'];
+
+                $val->url = self::getFileId($val->url);
+                if(!$val->url)
+                    return ['18.0'];
+                $file_paths[] = $val->url;
+            }else{
+                return ['18.2'];
+            }
         }
 
-        $media = Media::get(['path'=>$value]);
+        $media = Media::get(['path'=>$file_paths]);
         if(!$media)
             return ['18.0'];
 
         $media_paths = array_column($media, 'path');
         foreach($value as $val){
-            if(!in_array($val, $media_paths))
+            $cval = $val;
+            if(is_object($val))
+                $cval = $val->url ?? '';
+
+            if(!in_array($cval, $media_paths))
                 return ['18.0'];
         }
 

@@ -220,6 +220,9 @@ return [
 ];
 ```
 
+Nilai yang dikirimkan bisa berbentuk `["path/to/file.ext"]` atau object dalam array dengan
+key media adalah `url` seperti `[{"url":"path/to/file.ext"}]`.
+
 ## Formatter
 
 Module ini menambah satu formatter dengan nama `std-cover` untuk memformat data string object

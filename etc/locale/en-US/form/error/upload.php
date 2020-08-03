@@ -2,6 +2,7 @@
 
 return [
     'invalid_form_name' => 'Form upload is not valid',
+    'invalid_object_request_format' => 'Invalid object format',
     'file_size_too_small' => 'File size too small',
     'file_size_too_big' => 'File size too big',
     'mime_type_not_acceptable' => 'File mime type is not allowed',
