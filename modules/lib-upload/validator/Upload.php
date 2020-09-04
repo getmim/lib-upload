@@ -114,6 +114,36 @@ class Upload
         if(!is_array($value))
             return null;
 
+        // std php upload error
+        if($value['error']){
+            $result = ['27.0'];
+        	switch($value['error']){
+        		case UPLOAD_ERR_INI_SIZE:
+                    $result = ['27.1'];
+        			break;
+        		case UPLOAD_ERR_FORM_SIZE:
+                    $result = ['27.2'];
+        			break;
+        		case UPLOAD_ERR_PARTIAL:
+                    $result = ['27.3'];
+        			break;
+        		case UPLOAD_ERR_NO_FILE:
+                    $result = ['27.4'];
+        			break;
+        		case UPLOAD_ERR_NO_TMP_DIR:
+                    $result = ['27.5'];
+        			break;
+        		case UPLOAD_ERR_CANT_WRITE:
+                    $result = ['27.6'];
+        			break;
+        		case UPLOAD_ERR_EXTENSION:
+                    $result = ['27.7'];
+        			break;
+        	}
+
+            return $result;
+        }
+
         $media = (object)[
             'size'   => $value['size'],
             'mime'   => $value['type'],

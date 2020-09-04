@@ -14,5 +14,13 @@ return [
     'target_file_not_found' => 'Target berkas tidak ditemukan',
     'target_file_not_acceptable' => 'Target berkas tidak bisa digunakan',
     'one_or_more_target_file_not_found' => 'Satu atau beberapa berkas tidak ditemukan',
-    'one_or_more_target_file_not_acceptable' => 'Satu atau beberapa berkas tidak bisa digunakan'
+    'one_or_more_target_file_not_acceptable' => 'Satu atau beberapa berkas tidak bisa digunakan',
+    'php_upload_err_unknown' => 'PHP: Dibatalkan oleh php tanpa pesan error',
+    'php_upload_err_ini_size' => 'PHP: Melebihi batas ukuran file berdasarkan php.ini',
+    'php_upload_err_form_size' => 'PHP: Melebihi batas ukuran file berdasarkan MAX_FILE_SIZE',
+    'php_upload_err_partial' => 'PHP: File hanya terunggah sebagian',
+    'php_upload_err_no_file' => 'PHP: Tidak ada file yang terunggah',
+    'php_upload_err_no_tmp_dir' => 'PHP: Tidak bisa menemukan lokasi folder /tmp',
+    'php_upload_err_cant_write' => 'PHP: Gagal menulis ke media penyimpanan',
+    'php_upload_err_extension' => 'PHP: Dibatalkan oleh suatu ekstensi php'
 ];

@@ -2,7 +2,7 @@
 
 return [
     '__name' => 'lib-upload',
-    '__version' => '0.3.4',
+    '__version' => '0.3.5',
     '__git' => 'git@github.com:getmim/lib-upload.git',
     '__license' => 'MIT',
     '__author' => [
@@ -133,7 +133,15 @@ return [
             '17.1' => 'form.error.upload.target_file_not_acceptable',
             '18.0' => 'form.error.upload.one_or_more_target_file_not_found',
             '18.1' => 'form.error.upload.one_or_more_target_file_not_acceptable',
-            '18.2' => 'form.error.upload.invalid_object_request_format'
+            '18.2' => 'form.error.upload.invalid_object_request_format',
+            '27.0' => 'form.error.upload.php_upload_err_unknown',
+            '27.1' => 'form.error.upload.php_upload_err_ini_size',
+            '27.2' => 'form.error.upload.php_upload_err_form_size',
+            '27.3' => 'form.error.upload.php_upload_err_partial',
+            '27.4' => 'form.error.upload.php_upload_err_no_file',
+            '27.5' => 'form.error.upload.php_upload_err_no_tmp_dir',
+            '27.6' => 'form.error.upload.php_upload_err_cant_write',
+            '27.7' => 'form.error.upload.php_upload_err_extension'
         ]
     ],
     'routes' => [

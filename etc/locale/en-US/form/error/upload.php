@@ -14,5 +14,13 @@ return [
     'target_file_not_found' => 'Target file not found',
     'target_file_not_acceptable' => 'Target file not acceptable',
     'one_or_more_target_file_not_found' => 'One or more files not found',
-    'one_or_more_target_file_not_acceptable' => 'One or more files not acceptable'
+    'one_or_more_target_file_not_acceptable' => 'One or more files not acceptable',
+    'php_upload_err_unknown' => 'PHP: Canceled by php without error message',
+    'php_upload_err_ini_size' => 'PHP: Max allowed file size in php.ini',
+    'php_upload_err_form_size' => 'PHP: Max allowed file size in MAX_FILE_SIZE directive',
+    'php_upload_err_partial' => 'PHP: Uploaded file partially not received',
+    'php_upload_err_no_file' => 'PHP: No file was uploaded',
+    'php_upload_err_no_tmp_dir' => 'PHP: Unable to locate tmp folder',
+    'php_upload_err_cant_write' => 'PHP: Unabel to write file to disk',
+    'php_upload_err_extension' => 'PHP: Upload blocked by unknown php extension'
 ];
