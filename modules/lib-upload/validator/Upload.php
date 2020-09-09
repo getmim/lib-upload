@@ -172,17 +172,12 @@ class Upload
         if(!$form)
             return null;
 
-        if(!isset($value->error))
-            $value->error = 0;
-
-        $value = (array)$value;
-
         $media = (object)[
-            'size'   => $value['size'],
-            'mime'   => $value['type'],
-            'name'   => $value['name'],
-            'width'  => $value['width'] ?? null,
-            'height' => $value['height'] ?? null
+            'size'   => $value->size,
+            'mime'   => $value->type,
+            'name'   => $value->name,
+            'width'  => $value->width ?? null,
+            'height' => $value->height ?? null
         ];
 
         return self::validateMedia($media, $form);
