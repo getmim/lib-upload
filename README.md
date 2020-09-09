@@ -188,6 +188,40 @@ oleh semua user. Endpoint ini menerima query string:
 1. `type` Filter berdasarkan mime type file. Karaketer `*` dianggap sebagai cocok dengan semua (ex: `image/*` ).
 1. `hash` Filter berdasarkan hash file ( md5 ).
 
+### Validate
+
+Sebelum malanjutkan proses upload file ke server, sebaiknya validasi file yang akan di upload untuk meminimalisir
+kemungkinan error setelah file terupload. Panggil route `/upload/validate` dengan body seperti di bawah:
+
+```json
+{
+    "form": "form-name",
+    "file": {
+        "size": 123123,
+        "type": "image/jpeg",
+        "name": "file.jpg",
+        "width": 1223,
+        "height": 123321
+    }
+}
+```
+
+Properti `width` dan `height` khusus untuk file tipe gambar.
+
+Jika file yang akan diupload cocok dengan form, maka validator akan mengembalikan
+nilai `token` seperti di bawah yang bisa digunakan untuk upload
+chunk file:
+
+```json
+{
+    "error": 0,
+    "message": "OK",
+    "data": {
+        "token": "mim-upload-FH4F8I"
+    }
+}
+```
+
 ## Validator
 
 Jika module `lib-validator` terpasang, maka module ini mendaftarkan tipe validasi dengan

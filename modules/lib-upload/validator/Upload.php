@@ -167,6 +167,27 @@ class Upload
         return ['15.0'];
     }
 
+    static function mock($value, $opts, $object, $field, $rules): ?array{
+        $form = $object->form ?? null;
+        if(!$form)
+            return null;
+
+        if(!isset($value->error))
+            $value->error = 0;
+
+        $value = (array)$value;
+
+        $media = (object)[
+            'size'   => $value['size'],
+            'mime'   => $value['type'],
+            'name'   => $value['name'],
+            'width'  => $value['width'] ?? null,
+            'height' => $value['height'] ?? null
+        ];
+
+        return self::validateMedia($media, $form);
+    }
+
     static function upload($value, $options, $object, $field, $rules): ?array {
         if(is_null($value) || !$value)
             return null;

@@ -2,7 +2,7 @@
 
 return [
     '__name' => 'lib-upload',
-    '__version' => '0.3.5',
+    '__version' => '0.4.0',
     '__git' => 'git@github.com:getmim/lib-upload.git',
     '__license' => 'MIT',
     '__author' => [
@@ -99,6 +99,27 @@ return [
                         'required' => TRUE,
                         'array' => 'assoc',
                         'upload-file' => TRUE
+                    ],
+                    'filters' => [
+                        'array' => true 
+                    ]
+                ],
+                'form' => [
+                    'label' => 'File Form',
+                    'type' => 'text',
+                    'rules' => [
+                        'required' => TRUE,
+                        'upload-form' => TRUE
+                    ]
+                ]
+            ],
+            'lib-upload-validate' => [
+                'file' => [
+                    'label' => 'File',
+                    'type' => 'file',
+                    'rules' => [
+                        'required' => TRUE,
+                        'upload-mock' => TRUE
                     ]
                 ],
                 'form' => [
@@ -117,7 +138,8 @@ return [
             'upload' => 'LibUpload\\Validator\\Upload::upload',
             'upload-file' => 'LibUpload\\Validator\\Upload::file',
             'upload-form' => 'LibUpload\\Validator\\Upload::form',
-            'upload-list' => 'LibUpload\\Validator\\Upload::uploadList'
+            'upload-list' => 'LibUpload\\Validator\\Upload::uploadList',
+            'upload-mock' => 'LibUpload\\Validator\\Upload::mock',
         ],
         'errors' => [
             '15.0' => 'form.error.upload.invalid_form_name',
@@ -159,6 +181,13 @@ return [
                 ],
                 'method' => 'GET',
                 'handler' => 'LibUpload\\Controller\\Upload::filter'
+            ],
+            'apiUploadValidate' => [
+                'path' => [
+                    'value' => '/upload/validate'
+                ],
+                'method' => 'POST',
+                'handler' => 'LibUpload\\Controller\\Upload::validate'
             ]
         ]
     ],

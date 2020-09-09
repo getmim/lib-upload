@@ -180,4 +180,19 @@ class UploadController extends \Api\Controller
             'size' => (int)$media->size
         ]);
     }
+
+    public function validateAction(){
+        if(!$this->user->isLogin())
+            return $this->resp(401);
+
+        $form = new Form('lib-upload-validate');
+
+        if(!$form->validate())
+            return $this->resp(422, $form->getErrors());
+
+        $tmp_file = tempnam(sys_get_temp_dir(), "mim-upload-");
+        $tmp_name = basename($tmp_file);
+
+        $this->resp(0, ['token'=>$tmp_name]);
+    }
 }
