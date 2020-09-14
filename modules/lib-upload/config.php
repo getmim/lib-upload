@@ -2,7 +2,7 @@
 
 return [
     '__name' => 'lib-upload',
-    '__version' => '0.4.1',
+    '__version' => '0.5.0',
     '__git' => 'git@github.com:getmim/lib-upload.git',
     '__license' => 'MIT',
     '__author' => [
@@ -130,6 +130,55 @@ return [
                         'upload-form' => TRUE
                     ]
                 ]
+            ],
+            'lib-upload-chunk' => [
+                'file' => [
+                    'label' => 'File',
+                    'type' => 'file',
+                    'rules' => [
+                        'required' => TRUE,
+                        'file' => true
+                    ]
+                ],
+                'form' => [
+                    'label' => 'File Form',
+                    'type' => 'text',
+                    'rules' => [
+                        'required' => TRUE,
+                        'upload-form' => TRUE
+                    ]
+                ],
+                'token' => [
+                    'label' => 'Token',
+                    'type' => 'text',
+                    'rules' => [
+                        'required' => true 
+                    ]
+                ]
+            ],
+            'lib-upload-finalize' => [
+                'form' => [
+                    'label' => 'File Form',
+                    'type' => 'text',
+                    'rules' => [
+                        'required' => TRUE,
+                        'upload-form' => TRUE
+                    ]
+                ],
+                'token' => [
+                    'label' => 'Token',
+                    'type' => 'text',
+                    'rules' => [
+                        'required' => true 
+                    ]
+                ],
+                'name' => [
+                    'label' => 'Original File Name',
+                    'type' => 'text',
+                    'rules' => [
+                        'required' => true 
+                    ]
+                ]
             ]
         ]
     ],
@@ -188,6 +237,20 @@ return [
                 ],
                 'method' => 'POST',
                 'handler' => 'LibUpload\\Controller\\Upload::validate'
+            ],
+            'apiUploadChunk' => [
+                'path' => [
+                    'value' => '/upload/chunk'
+                ],
+                'method' => 'POST',
+                'handler' => 'LibUpload\\Controller\\Upload::chunk'
+            ],
+            'apiUploadFinalize' => [
+                'path' => [
+                    'value' => '/upload/finalize'
+                ],
+                'method' => 'POST',
+                'handler' => 'LibUpload\\Controller\\Upload::finalize'
             ]
         ]
     ],

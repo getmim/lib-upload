@@ -209,15 +209,14 @@ kemungkinan error setelah file terupload. Panggil route `/upload/validate` denga
 Properti `width` dan `height` khusus untuk file tipe gambar.
 
 Jika file yang akan diupload cocok dengan form, maka validator akan mengembalikan
-nilai `token` seperti di bawah yang bisa digunakan untuk upload
-chunk file:
+nilai `token` seperti di bawah yang bisa digunakan untuk upload dengan metode chunk:
 
 ```json
 {
     "error": 0,
     "message": "OK",
     "data": {
-        "token": "mim-upload-FH4F8I"
+        "token": "UzHz6q/528879b833183b4158551768335784f3"
     }
 }
 ```
@@ -300,3 +299,43 @@ UForm::parse($object, 'cover');
 // menggabungkan properti `cover-url` dan `cover-label` ke dalam properti `cover`
 UForm::combine($valid, 'cover');
 ```
+
+## Chunk Upload
+
+Library ini mendukung chunk upload untuk memungkinkan upload file dengan ukuran yang besar.
+Step yang harus dilakukan untuk upload chunk file adalah sebagai berikut:
+
+### Dapatkan Token
+
+Validasi file dengan memanggil route `/upload/validate` seperti contoh di atas untuk mendapatkan
+token chunk upload.
+
+### Split File
+
+Split file dengan masing-masing chunk berukuran cukup kecil tapi tidak terlalu kecil untuk di upload
+per-bagian. Ukuran yang umumnya digunakan adalah 200kb.
+
+### Upload Chunk
+
+Upload chunk ke route `/upload/chunk` **secara berurutan** dari yang paling awal ke yang akhir
+dengan body seperti di bawah:
+
+```
+file::File   : Chunk file
+form::String : Upload form name
+token::String: File upload chunk token
+```
+
+### Finalize
+
+Begitu semua chunk berhasil di upload, panggil route `/upload/finalize` dengan body seperti
+dibawah dalam format json untuk menyelesaikan proses upload.
+
+```json
+form::String  : Upload form name
+token::String : File upload chunk token
+name::String  : Original file name
+```
+
+Jika proses upload berhasil, maka fungsi ini akan mengembalikan nilai yang sama dengan proses upload
+metode biasa.
