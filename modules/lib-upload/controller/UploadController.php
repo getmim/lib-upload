@@ -308,7 +308,7 @@ class UploadController extends \Api\Controller
             }
             $handlers = $used_handlers;
         }
-        
+
         // make sure the file is not yet uploaded
         $media = Media::getOne(['identity'=>$file_md5]);
         $file_urls = [];
@@ -347,6 +347,7 @@ class UploadController extends \Api\Controller
             foreach($handlers as $keeper => $opt){
                 if(!$opt->use)
                     continue;
+
                 $class = $opt->class;
                 if(!($file_url = $class::save($file))){
                     $error = $class::lastError();
@@ -358,6 +359,9 @@ class UploadController extends \Api\Controller
 
             if($error)
                 return $this->resp(500, null, $error);
+
+            if(!$file_urls)
+                return $this->resp(500, null, 'No file keeper used to save the file');
 
             // now insert it to db
             $media = [
