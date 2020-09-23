@@ -87,7 +87,7 @@ tidak mengenali file, atau string file id jika diketahui.
 
 Mengambil informasi error terakhir.
 
-### save(object $file): bool
+### save(object $file): ?string
 
 Method yang akan dipanggil ketika suatu file berhasil di upload dan sudah melewati
 proses verifikasi rules. Method ini adalah static method yang akan dipanggil dengan
@@ -112,7 +112,7 @@ $file = (object)[
 ];
 ```
 
-Fungsi ini diharapkan mengembalikan nilai `true` jika berhasil, dan `false` jika
+Fungsi ini diharapkan mengembalikan nilai `string` final URL file jika berhasil, dan `null` jika
 gagal.
 
 ## Implementasi Keeper
@@ -142,7 +142,8 @@ return [
 Ketika event upload terjadi, semua `handlers` yang terdaftar dengan 
 properti `use` adalah `true` akan di panggil. Jadi jika ada 5 keeper
 terdaftar dan semuanya adalah `use => true`, maka file upload user
-tersebut akan disimpan oleh 5 keeper.
+tersebut akan disimpan oleh 5 keeper. Kecuali jika form upload mendefinisikan
+keeper yang akan digunakan, maka rule `use` tidak digunakan.
 
 ## FrontEnd
 
