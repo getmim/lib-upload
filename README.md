@@ -332,7 +332,7 @@ token::String: File upload chunk token
 Begitu semua chunk berhasil di upload, panggil route `/upload/finalize` dengan body seperti
 dibawah dalam format json untuk menyelesaikan proses upload.
 
-```json
+```
 form::String  : Upload form name
 token::String : File upload chunk token
 name::String  : Original file name

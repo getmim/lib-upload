@@ -248,6 +248,9 @@ class UploadController extends \Api\Controller
             if($error)
                 return $this->resp(500, null, $error);
 
+            if(!$file_urls)
+                return $this->resp(500, null, 'No file keeper used to save the file');
+
             // now insert it to db
             $media = [
                 'name'      => $target_name,
