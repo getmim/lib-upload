@@ -11,13 +11,14 @@ use LibFormatter\Library\Formatter;
 
 class Format
 {
-    static function stdCover($value, string $field, object $object, object $format, $options){
-        if(is_null($value))
-            return $value;
+    static function stdCover(array $values, string $field, array $object, object $format, $options){
+        if(!$values)
+            return [];
 
-        $value = json_decode($value);
-        if(!$value)
-            return null;
-        return Formatter::format('std-cover', $value);
+        foreach($values as &$value)
+            $value = json_decode($value);
+        unset($value);
+
+        return Formatter::formatMany('std-cover', $values);
     }
 }

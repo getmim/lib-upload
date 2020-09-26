@@ -2,7 +2,7 @@
 
 return [
     '__name' => 'lib-upload',
-    '__version' => '0.5.1',
+    '__version' => '0.6.0',
     '__git' => 'git@github.com:getmim/lib-upload.git',
     '__license' => 'MIT',
     '__author' => [
@@ -297,7 +297,7 @@ return [
         'handlers' => [
             'std-cover' => [
                 'handler' => 'LibUpload\\Library\\Format::stdCover',
-                'collective' => false
+                'collective' => true
             ]
         ]
     ]
