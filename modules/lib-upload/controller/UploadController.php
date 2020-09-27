@@ -409,6 +409,33 @@ class UploadController extends \Api\Controller
         if(!($valid = $form->validate()))
             return $this->resp(422, $form->getErrors());
 
+        // make sure upload handler is exists for this request
+        $file_form = $valid->form;
+
+        $up_form = (array)($this->config->libUpload->forms->{$file_form}->keeper ?? []);
+
+        $handlers = $this->config->libUpload->keeper->handlers;
+        if($up_form){
+            $used_handlers = [];
+            foreach($handlers as $keeper => $opt){
+                if(in_array($keeper, $up_form))
+                    $used_handlers[$keeper] = $opt;
+            }
+            $handlers = $used_handlers;
+        }
+
+        $up_exists = false;
+        foreach($handlers as $keeper => $opt){
+            if(!$opt->use)
+                continue;
+
+            $up_exists = true;
+            break;
+        }
+
+        if(!$up_exists)
+            return $this->resp(500, null, 'No file keeper usable to save the file');
+
         $token = $this->makeToken($valid->form, $valid->file);
 
         $this->resp(0, ['token'=>$token]);
