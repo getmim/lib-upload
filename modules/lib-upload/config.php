@@ -2,7 +2,7 @@
 
 return [
     '__name' => 'lib-upload',
-    '__version' => '0.6.2',
+    '__version' => '0.7.0',
     '__git' => 'git@github.com:getmim/lib-upload.git',
     '__license' => 'MIT',
     '__author' => [
@@ -43,6 +43,23 @@ return [
     '__gitignore' => [
         'media/*' => TRUE,
         '!media/.gitkeep' => TRUE
+    ],
+    '__inject' => [
+        [
+            'name' => 'libUpload',
+            'children' => [
+                [
+                    'name' => 'base',
+                    'question' => 'Would you like to configure local storage media?',
+                    'default' => true,
+                    'rule' => 'boolean',
+                    'injector' => [
+                        'class' => 'LibUpload\\Library\\Cli',
+                        'method' => 'local'
+                    ]
+                ]
+            ]
+        ]
     ],
     'autoload' => [
         'classes' => [
@@ -101,7 +118,7 @@ return [
                         'upload-file' => TRUE
                     ],
                     'filters' => [
-                        'array' => true 
+                        'array' => TRUE
                     ]
                 ],
                 'form' => [
@@ -137,7 +154,7 @@ return [
                     'type' => 'file',
                     'rules' => [
                         'required' => TRUE,
-                        'file' => true
+                        'file' => TRUE
                     ]
                 ],
                 'form' => [
@@ -152,7 +169,7 @@ return [
                     'label' => 'Token',
                     'type' => 'text',
                     'rules' => [
-                        'required' => true 
+                        'required' => TRUE
                     ]
                 ]
             ],
@@ -169,14 +186,14 @@ return [
                     'label' => 'Token',
                     'type' => 'text',
                     'rules' => [
-                        'required' => true 
+                        'required' => TRUE
                     ]
                 ],
                 'name' => [
                     'label' => 'Original File Name',
                     'type' => 'text',
                     'rules' => [
-                        'required' => true 
+                        'required' => TRUE
                     ]
                 ]
             ]
@@ -188,7 +205,7 @@ return [
             'upload-file' => 'LibUpload\\Validator\\Upload::file',
             'upload-form' => 'LibUpload\\Validator\\Upload::form',
             'upload-list' => 'LibUpload\\Validator\\Upload::uploadList',
-            'upload-mock' => 'LibUpload\\Validator\\Upload::mock',
+            'upload-mock' => 'LibUpload\\Validator\\Upload::mock'
         ],
         'errors' => [
             '15.0' => 'form.error.upload.invalid_form_name',
@@ -256,7 +273,7 @@ return [
     ],
     'libUpload' => [
         'filter' => [
-            'own' => false
+            'own' => FALSE
         ],
         'base' => [
             'local' => 'media',
@@ -297,7 +314,7 @@ return [
         'handlers' => [
             'std-cover' => [
                 'handler' => 'LibUpload\\Library\\Format::stdCover',
-                'collective' => true
+                'collective' => TRUE
             ]
         ]
     ]
