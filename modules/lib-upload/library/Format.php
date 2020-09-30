@@ -15,10 +15,10 @@ class Format
         if(!$values)
             return [];
 
-        foreach($values as &$value)
-            $value = json_decode($value);
-        unset($value);
+        $fvalues = [];
+        foreach($values as $value)
+            $fvalues[$value] = json_decode($value);
 
-        return Formatter::formatMany('std-cover', $values);
+        return Formatter::formatMany('std-cover', $fvalues);
     }
 }
