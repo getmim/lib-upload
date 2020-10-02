@@ -9,10 +9,33 @@ namespace LibUpload\Controller;
 
 use LibForm\Library\Form;
 use LibUpload\Model\Media;
+use LibUpload\Model\MediaAuth as MAuth;
 use LibValidator\Library\Validator;
 
 class UploadController extends \Api\Controller
 {
+    private $user_id;
+    private $object_id;
+    private $object_type;
+
+    private function isAuthorized(): bool{
+        $this->user_id = $this->user->isLogin() ? $this->user->id : 0;
+
+        $auths = $this->config->libUpload->authorizer;
+        if($auths){
+            foreach($auths as $name => $class){
+                $obj_id = $class::getAuthId();
+                if(!$obj_id)
+                    continue;
+
+                $this->object_id = $obj_id;
+                $this->object_type = $name;
+            }
+        }
+
+        return ($this->user_id || $this->object_id);
+    }
+
     private function makeToken(string $form, object $file): string{
         $tmp_file = tempnam(sys_get_temp_dir(), '');
         $tmp_name = basename($tmp_file);
@@ -21,8 +44,7 @@ class UploadController extends \Api\Controller
             $this->req->getIP(),
             $this->req->agent,
             $form,
-            $tmp_name,
-            $this->user->id
+            $tmp_name
         ];
 
         $token_payload = implode('/', $token_payload);
@@ -42,8 +64,7 @@ class UploadController extends \Api\Controller
             $this->req->getIP(),
             $this->req->agent,
             $form,
-            $tokens[0],
-            $this->user->id
+            $tokens[0]
         ];
 
         $match_payload = md5(implode('/', $match_payload));
@@ -52,7 +73,7 @@ class UploadController extends \Api\Controller
     }
 
     public function chunkAction(){
-        if(!$this->user->isLogin())
+        if(!$this->isAuthorized())
             return $this->resp(401);
 
         $form = new Form('lib-upload-chunk');
@@ -78,12 +99,12 @@ class UploadController extends \Api\Controller
     }
 
     public function filterAction(){
-        if(!$this->user->isLogin())
+        if(!$this->isAuthorized())
             return $this->resp(401);
 
         $cond = [];
 
-        if($this->config->libUpload->filter->own)
+        if($this->config->libUpload->filter->own && $this->user->isLogin())
             $cond['user'] = $this->user->id;
 
         if(!is_null($hash = $this->req->getQuery('hash')))
@@ -139,7 +160,7 @@ class UploadController extends \Api\Controller
     }
 
     public function finalizeAction(){
-        if(!$this->user->isLogin())
+        if(!$this->isAuthorized())
             return $this->resp(401);
 
         $form = new Form('lib-upload-finalize');
@@ -256,7 +277,7 @@ class UploadController extends \Api\Controller
                 'name'      => $target_name,
                 'original'  => $file->name,
                 'mime'      => $file->type,
-                'user'      => $this->user->id,
+                'user'      => $this->user_id,
                 'path'      => $target,
                 'form'      => $result->form,
                 'size'      => $file->size,
@@ -271,6 +292,14 @@ class UploadController extends \Api\Controller
 
             if(!$id = Media::create($media))
                 return $this->resp(500, Media::lastError());
+
+            if($this->object_id){
+                MAuth::create([
+                    'media'  => $id,
+                    'type'   => $this->object_type,
+                    'object' => $this->object_id
+                ]);
+            }
 
             $media = Media::getOne(['id'=>$id]);
         }
@@ -289,7 +318,7 @@ class UploadController extends \Api\Controller
     }
 
     public function initAction() {
-        if(!$this->user->isLogin())
+        if(!$this->isAuthorized())
             return $this->resp(401);
 
         $form = new Form('lib-upload');
@@ -371,7 +400,7 @@ class UploadController extends \Api\Controller
                 'name'      => $target_name,
                 'original'  => $file->name,
                 'mime'      => $file->type,
-                'user'      => $this->user->id,
+                'user'      => $this->user_id,
                 'path'      => $target,
                 'form'      => $result->form,
                 'size'      => $file->size,
@@ -387,6 +416,14 @@ class UploadController extends \Api\Controller
             if(!$id = Media::create($media))
                 return $this->resp(500, Media::lastError());
 
+            if($this->object_id){
+                MAuth::create([
+                    'media'  => $id,
+                    'type'   => $this->object_type,
+                    'object' => $this->object_id
+                ]);
+            }
+
             $media = Media::getOne(['id'=>$id]);
         }
 
@@ -401,7 +438,7 @@ class UploadController extends \Api\Controller
     }
 
     public function validateAction(){
-        if(!$this->user->isLogin())
+        if(!$this->isAuthorized())
             return $this->resp(401);
 
         $form = new Form('lib-upload-validate');

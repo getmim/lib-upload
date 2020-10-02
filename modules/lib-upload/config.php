@@ -2,7 +2,7 @@
 
 return [
     '__name' => 'lib-upload',
-    '__version' => '0.7.1',
+    '__version' => '0.8.0',
     '__git' => 'git@github.com:getmim/lib-upload.git',
     '__license' => 'MIT',
     '__author' => [
@@ -51,7 +51,7 @@ return [
                 [
                     'name' => 'base',
                     'question' => 'Would you like to configure local storage media?',
-                    'default' => true,
+                    'default' => TRUE,
                     'rule' => 'boolean',
                     'injector' => [
                         'class' => 'LibUpload\\Library\\Cli',
@@ -272,6 +272,7 @@ return [
         ]
     ],
     'libUpload' => [
+        'authorizer' => [],
         'filter' => [
             'own' => FALSE
         ],

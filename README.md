@@ -340,3 +340,27 @@ name::String  : Original file name
 
 Jika proses upload berhasil, maka fungsi ini akan mengembalikan nilai yang sama dengan proses upload
 metode biasa.
+
+## Authorizer
+
+Secara default, semua aktifitas upload/filter media harus ter-authorize oleh user ( lib-user ).
+Untuk memungkinkan upload dengan custom authorize, silahkan tambahkan konfigurasi seperti di bawah
+pada konfigurasi module/aplikasi:
+
+```php
+return [
+    'libUpload' => [
+        'authorizer' => [
+            'name' => 'Class'
+        ]
+    ]
+];
+```
+
+Dan buatkan class authorize yang mengimplementasikan interface `LibUpload\Iface\Authorizer` sehingga
+class tersebut memiliki method sebagai berikut:
+
+### static getAuthId(): ?int
+
+Fungsi untuk mengembalikan object id yang memperbolehkan aktifitas upload/filter, atau null jika tidak
+diperbolehkan.
