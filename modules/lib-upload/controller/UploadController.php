@@ -86,7 +86,7 @@ class UploadController extends \Api\Controller
         $tokens = explode('/', $valid->token);
         $tmp_name = $tokens[0];
 
-        $tmp_file = sys_get_temp_dir() . 'mim-upload-' . $tmp_name;
+        $tmp_file = rtrim(sys_get_temp_dir(), '/') . '/mim-upload-' . $tmp_name;
 
         $file = $valid->file;
         $file_content = file_get_contents($file['tmp_name']);
@@ -173,7 +173,7 @@ class UploadController extends \Api\Controller
         $tokens = explode('/', $valid->token);
         $tmp_name = $tokens[0];
 
-        $tmp_file = sys_get_temp_dir() . 'mim-upload-' . $tmp_name;
+        $tmp_file = rtrim(sys_get_temp_dir(), '/') . '/mim-upload-' . $tmp_name;
 
         if(!is_file($tmp_file))
             return $this->resp(400, 'Complete file not uploaded');

@@ -2,7 +2,7 @@
 
 return [
     '__name' => 'lib-upload',
-    '__version' => '0.8.0',
+    '__version' => '0.8.1',
     '__git' => 'git@github.com:getmim/lib-upload.git',
     '__license' => 'MIT',
     '__author' => [
