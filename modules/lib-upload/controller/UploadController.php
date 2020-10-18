@@ -255,8 +255,9 @@ class UploadController extends \Api\Controller
             $error = false;
             
             foreach($handlers as $keeper => $opt){
-                if(!$opt->use)
+                if(!$up_form && !$opt->use)
                     continue;
+                
                 $class = $opt->class;
                 if(!($file_url = $class::save($file))){
                     $error = $class::lastError();
@@ -377,7 +378,7 @@ class UploadController extends \Api\Controller
             $error = false;
             
             foreach($handlers as $keeper => $opt){
-                if(!$opt->use)
+                if(!$up_form && !$opt->use)
                     continue;
 
                 $class = $opt->class;
@@ -461,13 +462,15 @@ class UploadController extends \Api\Controller
             $handlers = $used_handlers;
         }
 
-        $up_exists = false;
-        foreach($handlers as $keeper => $opt){
-            if(!$opt->use)
-                continue;
+        $up_exists = !!$handlers;
+        if(!$up_form){
+            foreach($handlers as $keeper => $opt){
+                if(!$opt->use)
+                    continue;
 
-            $up_exists = true;
-            break;
+                $up_exists = true;
+                break;
+            }
         }
 
         if(!$up_exists)
