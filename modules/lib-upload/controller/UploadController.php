@@ -202,6 +202,13 @@ class UploadController extends \Api\Controller
             ],
             'form' => $valid->form
         ];
+        // fix mp3 mime
+        if ($result->file['type'] == 'application/octet-stream') {
+            if (preg_match('!mp3$!', $result->file['name'])) {
+                $result->file['type'] = 'audio/mpeg';
+            }
+        }
+
         list($res, $errs) = Validator::validate(objectify($rule), $result);
         if($errs)
             return $this->resp(422, $errs);
