@@ -147,6 +147,7 @@ class UploadController extends \Api\Controller
             foreach($media as $medium){
                 $file_urls = json_decode($medium->urls);
                 $result[] = [
+                    'id'   => (int)$medium->id,
                     'url'  => $file_urls[0] ?? NULL,
                     'path' => $medium->path,
                     'name' => $medium->original,
@@ -317,6 +318,7 @@ class UploadController extends \Api\Controller
 
         $file_urls = json_decode($media->urls);
         return $this->resp(0, [
+            'id'   => (int)$id,
             'url'  => $file_urls[0] ?? NULL,
             'path' => $media->path,
             'name' => $media->original,
@@ -437,6 +439,7 @@ class UploadController extends \Api\Controller
 
         $file_urls = json_decode($media->urls);
         return $this->resp(0, [
+            'id'   => (int)$media->id,
             'url'  => $file_urls[0] ?? NULL,
             'path' => $media->path,
             'name' => $media->original,
