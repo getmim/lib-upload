@@ -337,6 +337,10 @@ class UploadController extends \Api\Controller
             return $this->resp(422, $form->getErrors());
 
         $result  = $form->getResult();
+        if (!isset($result->file['tmp_name'])) {
+            $form->addError('file', '17.0');
+            return $this->resp(422, $form->getErrors());
+        }
         $up_form = (array)($this->config->libUpload->forms->{$result->form}->keeper ?? []);
 
         $file_md5 = md5_file($result->file['tmp_name']);
