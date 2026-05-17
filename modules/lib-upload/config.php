@@ -2,7 +2,7 @@
 
 return [
     '__name' => 'lib-upload',
-    '__version' => '0.9.1',
+    '__version' => '1.0.0',
     '__git' => 'git@github.com:getmim/lib-upload.git',
     '__license' => 'MIT',
     '__author' => [
@@ -19,30 +19,33 @@ return [
     '__dependencies' => [
         'required' => [
             [
-                'lib-model' => NULL
+                'lib-model' => null
             ],
             [
-                'lib-user' => NULL
+                'lib-user' => null
             ],
             [
-                'lib-form' => NULL
+                'lib-form' => null
             ],
             [
-                'api' => NULL
+                'api' => null
+            ],
+            [
+                'lib-curl' => null
             ]
         ],
         'optional' => [
             [
-                'lib-media' => NULL
+                'lib-media' => null
             ],
             [
-                'lib-formatter' => NULL
+                'lib-formatter' => null
             ]
         ]
     ],
     '__gitignore' => [
-        'media/*' => TRUE,
-        '!media/.gitkeep' => TRUE
+        'media/*' => true,
+        '!media/.gitkeep' => true
     ],
     '__inject' => [
         [
@@ -51,7 +54,7 @@ return [
                 [
                     'name' => 'base',
                     'question' => 'Would you like to configure local storage media?',
-                    'default' => TRUE,
+                    'default' => true,
                     'rule' => 'boolean',
                     'injector' => [
                         'class' => 'LibUpload\\Library\\Cli',
@@ -98,8 +101,8 @@ return [
                     'type' => 'image',
                     'form' => 'std-image',
                     'rules' => [
-                        'required' => TRUE,
-                        'upload' => TRUE
+                        'required' => true,
+                        'upload' => true
                     ]
                 ],
                 'cover-label' => [
@@ -113,20 +116,20 @@ return [
                     'label' => 'File',
                     'type' => 'file',
                     'rules' => [
-                        'required' => TRUE,
+                        'required' => true,
                         'array' => 'assoc',
-                        'upload-file' => TRUE
+                        'upload-file' => true
                     ],
                     'filters' => [
-                        'array' => TRUE
+                        'array' => true
                     ]
                 ],
                 'form' => [
                     'label' => 'File Form',
                     'type' => 'text',
                     'rules' => [
-                        'required' => TRUE,
-                        'upload-form' => TRUE
+                        'required' => true,
+                        'upload-form' => true
                     ]
                 ]
             ],
@@ -135,16 +138,16 @@ return [
                     'label' => 'File',
                     'type' => 'file',
                     'rules' => [
-                        'required' => TRUE,
-                        'upload-mock' => TRUE
+                        'required' => true,
+                        'upload-mock' => true
                     ]
                 ],
                 'form' => [
                     'label' => 'File Form',
                     'type' => 'text',
                     'rules' => [
-                        'required' => TRUE,
-                        'upload-form' => TRUE
+                        'required' => true,
+                        'upload-form' => true
                     ]
                 ]
             ],
@@ -153,23 +156,23 @@ return [
                     'label' => 'File',
                     'type' => 'file',
                     'rules' => [
-                        'required' => TRUE,
-                        'file' => TRUE
+                        'required' => true,
+                        'file' => true
                     ]
                 ],
                 'form' => [
                     'label' => 'File Form',
                     'type' => 'text',
                     'rules' => [
-                        'required' => TRUE,
-                        'upload-form' => TRUE
+                        'required' => true,
+                        'upload-form' => true
                     ]
                 ],
                 'token' => [
                     'label' => 'Token',
                     'type' => 'text',
                     'rules' => [
-                        'required' => TRUE
+                        'required' => true
                     ]
                 ]
             ],
@@ -178,22 +181,22 @@ return [
                     'label' => 'File Form',
                     'type' => 'text',
                     'rules' => [
-                        'required' => TRUE,
-                        'upload-form' => TRUE
+                        'required' => true,
+                        'upload-form' => true
                     ]
                 ],
                 'token' => [
                     'label' => 'Token',
                     'type' => 'text',
                     'rules' => [
-                        'required' => TRUE
+                        'required' => true
                     ]
                 ],
                 'name' => [
                     'label' => 'Original File Name',
                     'type' => 'text',
                     'rules' => [
-                        'required' => TRUE
+                        'required' => true
                     ]
                 ]
             ]
@@ -274,7 +277,7 @@ return [
     'libUpload' => [
         'authorizer' => [],
         'filter' => [
-            'own' => FALSE
+            'own' => false
         ],
         'base' => [
             'local' => 'media',
@@ -296,7 +299,7 @@ return [
             'handlers' => [
                 'local' => [
                     'class' => 'LibUpload\\Keeper\\Local',
-                    'use' => TRUE
+                    'use' => true
                 ]
             ]
         ]
@@ -315,7 +318,7 @@ return [
         'handlers' => [
             'std-cover' => [
                 'handler' => 'LibUpload\\Library\\Format::stdCover',
-                'collective' => TRUE
+                'collective' => true
             ]
         ]
     ]
