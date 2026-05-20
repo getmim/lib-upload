@@ -13,9 +13,16 @@ use LibUpload\Model\Media;
 
 class Downloader
 {
+    protected static $last_error;
+
+    public static function lastError()
+    {
+        return self::$last_error;
+    }
+
     public static function download(string $url, string $form): ?object
     {
-        $tmp_file = tempnam(sys_get_temp_dir(), 'dl');
+        $tmp_file = tempnam(sys_get_temp_dir(), '-dl');
         $opts = [
             'url' => $url,
             'download' => $tmp_file
@@ -45,7 +52,7 @@ class Downloader
         list($result, $error) = Validator::validate($rules, $object);
 
         if ($error) {
-            throw new \Exception($error['file']->text);
+            self::$last_error = $error['file']->text;
             return null;
         }
 
@@ -114,12 +121,12 @@ class Downloader
             }
 
             if ($error) {
-                throw new \Exception($error);
+                self::$last_error = $error;
                 return null;
             }
 
             if (!$file_urls) {
-                throw new \Exception('No file keeper used to save the file');
+                self::$last_error = 'No file keeper used to save the file';
                 return nul;
             }
 
@@ -144,7 +151,7 @@ class Downloader
             }
 
             if (!$id = Media::create($media)) {
-                throw new \Exception(Media::lastError());
+                self::$last_error = Media::lastError();
                 return null;
             }
 
